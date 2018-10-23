@@ -23,11 +23,8 @@ public class CommandHandler {
         commandDescs.put("clear", "Clears the messages in the channel.");
         commandDescs.put("unpin", "Unpins the last pinned msg.");
         adminCommands.put("unpin", ((event, args) -> {
-            if (args.contains("all")) {
-                BotUtils.unpinMessage(event.getChannel(), event.getChannel().getPinnedMessages().get(0));
-            } else {
-                BotUtils.unpinMessage(event.getChannel(), null);
-            }
+            if (args.contains("all")) BotUtils.unpinMessage(event.getChannel(), true);
+            else BotUtils.unpinMessage(event.getChannel(), false);
         }));
         adminCommands.put("clear", ((event, args) -> BotUtils.clear(event.getChannel())));
         adminCommands.put("cmds", ((event, args) -> BotUtils.sendMessage(event.getChannel(), BotUtils.desc(adminCommands, commandDescs))));

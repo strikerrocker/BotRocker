@@ -46,12 +46,12 @@ public class BotUtils {
         });
     }
 
-    static void unpinMessage(IChannel channel, IMessage message) {
+    static void unpinMessage(IChannel channel, boolean first) {
         RequestBuffer.request(() -> {
             try {
                 if (!channel.getPinnedMessages().isEmpty()) {
-                    if (message != null) {
-                        channel.unpin(message);
+                    if (first) {
+                        channel.unpin(channel.getPinnedMessages().get(0));
                     } else {
                         for (IMessage msg : channel.getPinnedMessages()) {
                             channel.unpin(msg);
@@ -70,6 +70,7 @@ public class BotUtils {
         RequestBuffer.request(() -> {
             try {
                 channel.getFullMessageHistory().bulkDelete();
+                if (!channel.getFullMessageHistory().isEmpty()) clear(channel);
             } catch (DiscordException e) {
                 System.err.println("Message could not be sent with error: ");
                 e.printStackTrace();

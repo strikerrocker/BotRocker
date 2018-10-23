@@ -6,8 +6,8 @@
 
     <!-- Replace groupId, artifactId, and version with your own information -->
     <!-- https://maven.apache.org/guides/mini/guide-naming-conventions.html -->
-    <groupId>com.github.decyg</groupId>
-    <artifactId>d4jexamplebot</artifactId>
+    <groupId>com.github.strikerrocker</groupId>
+    <artifactId>BotRocker</artifactId>
     <version>1.0</version>
 
     <build>

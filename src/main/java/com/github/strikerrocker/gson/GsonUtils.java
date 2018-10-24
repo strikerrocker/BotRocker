@@ -39,7 +39,7 @@ public class GsonUtils {
                 if ("USER_PREFIX".equals(fieldname)) {
                     token = reader.peek();
                     BotUtils.USER_PREFIX = reader.nextString();
-                    System.out.println("User Prefix has been set to " + BotUtils.ADMIN_PREFIX);
+                    System.out.println("User Prefix has been set to " + BotUtils.USER_PREFIX);
                 }
             }
         }

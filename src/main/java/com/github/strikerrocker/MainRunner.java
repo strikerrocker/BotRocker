@@ -16,6 +16,7 @@ public class MainRunner {
     public static final Path FILE_PATH = Paths.get("command_data/commands_data.json");
     private static final Timer autoSaveTimer = new Timer();
     public static IDiscordClient cli;
+    public static CommandHandler INSTANCE = new CommandHandler();
 
     static {
         DATA_FOLDER.mkdirs();
@@ -34,7 +35,7 @@ public class MainRunner {
         }
         GsonUtils.read(FILE_PATH.toFile());
         cli = BotUtils.getBuiltDiscordClient(args[0]);
-        cli.getDispatcher().registerListener(new CommandHandler());
+        cli.getDispatcher().registerListener(INSTANCE);
         cli.login();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             GsonUtils.save();

@@ -16,7 +16,7 @@ public class BotUtils {
     public static String USER_PREFIX = "!";
     public static String ADMIN_PREFIX = "&";
 
-    static IDiscordClient getBuiltDiscordClient(String token) {
+    public static IDiscordClient getBuiltDiscordClient(String token) {
         return new ClientBuilder()
                 .withToken(token)
                 .withRecommendedShardCount()
@@ -24,7 +24,7 @@ public class BotUtils {
                 .build();
     }
 
-    static void sendMessage(IChannel channel, String message) {
+    public static void sendMessage(IChannel channel, String message) {
         RequestBuffer.request(() -> {
             try {
                 channel.sendMessage(message);
@@ -35,7 +35,7 @@ public class BotUtils {
         });
     }
 
-    static void pinMessage(IChannel channel, IMessage message) {
+    public static void pinMessage(IChannel channel, IMessage message) {
         RequestBuffer.request(() -> {
             try {
                 channel.pin(message);
@@ -46,7 +46,7 @@ public class BotUtils {
         });
     }
 
-    static void unpinMessage(IChannel channel, boolean first) {
+    public static void unpinMessage(IChannel channel, boolean first) {
         RequestBuffer.request(() -> {
             try {
                 if (!channel.getPinnedMessages().isEmpty()) {
@@ -66,19 +66,7 @@ public class BotUtils {
         });
     }
 
-    static void clear(IChannel channel) {
-        RequestBuffer.request(() -> {
-            try {
-                channel.getFullMessageHistory().bulkDelete();
-                if (!channel.getFullMessageHistory().isEmpty()) clear(channel);
-            } catch (DiscordException e) {
-                System.err.println("Message could not be sent with error: ");
-                e.printStackTrace();
-            }
-        });
-    }
-
-    static void react(IMessage message, String alias) {
+    public static void react(IMessage message, String alias) {
         RequestBuffer.request(() -> {
             try {
                 message.addReaction(EmojiManager.getForAlias(alias));
@@ -89,7 +77,7 @@ public class BotUtils {
         });
     }
 
-    static String desc(Map<String, Command> commandMap, Map<String, String> commandDescMap) {
+    public static String desc(Map<String, Command> commandMap, Map<String, String> commandDescMap) {
         String desc = "```";
         for (String key : commandMap.keySet()) {
             desc = desc.concat(key + "  :  " + commandDescMap.get(key) + "\n");

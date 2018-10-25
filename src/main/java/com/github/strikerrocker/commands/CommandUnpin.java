@@ -18,6 +18,6 @@ public class CommandUnpin extends Command {
 
     @Override
     public String getDesc() {
-        return "Unpins the last pinned msg.";
+        return "Unpins the last pinned msg(if has arg `all` will delete all)";
     }
 }

@@ -35,7 +35,7 @@ public class CommandPrefix extends Command {
     @Override
     public String getDesc() {
         if (!adminPrefix)
-            return "Sets the user prefix";
-        else return "Sets the admin prefix";
+            return "Sets the user prefix(if args has show it will send the prefix)";
+        else return "Sets the admin prefix(if args has show it will send the prefix)";
     }
 }

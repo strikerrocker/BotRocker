@@ -32,6 +32,6 @@ public class CommandClear extends Command {
 
     @Override
     public String getDesc() {
-        return "Clears the messages in the channel.";
+        return "Clears the messages in the channel and replies with no of msg deleted.";
     }
 }

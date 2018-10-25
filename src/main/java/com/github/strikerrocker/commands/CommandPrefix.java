@@ -1,9 +1,7 @@
 package com.github.strikerrocker.commands;
 
-import com.github.strikerrocker.BotUtils;
-import com.github.strikerrocker.Command;
-import com.github.strikerrocker.CommandHandler;
 import com.github.strikerrocker.gson.GsonUtils;
+import com.github.strikerrocker.utils.BotUtils;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 import java.util.List;
@@ -11,8 +9,8 @@ import java.util.List;
 public class CommandPrefix extends Command {
     boolean adminPrefix;
 
-    public CommandPrefix(String cmd, CommandHandler handler) {
-        super(cmd, true, handler);
+    public CommandPrefix(String cmd) {
+        super(cmd, true);
         adminPrefix = !cmd.equals("prefix");
     }
 

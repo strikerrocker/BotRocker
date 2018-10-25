@@ -1,28 +1,27 @@
 package com.github.strikerrocker;
 
 import com.github.strikerrocker.commands.*;
+import com.github.strikerrocker.utils.BotUtils;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.util.PermissionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandHandler {
 
-    public Map<String, Command> commands = new HashMap<>();
-    public Map<String, Command> adminCommands = new HashMap<>();
-    public Map<String, String> commandDescs = new HashMap<>();
-
     public CommandHandler() {
-        new CommandClear(this);
-        new CommandPing(this);
-        new CommandPrefix("prefix", this);
-        new CommandPrefix("prefixad", this);
-        new CommandReact(this);
-        new CommandUnpin(this);
-        new CommandList(true, this);
-        new CommandList(false, this);
+        new CommandClear();
+        new CommandPing();
+        new CommandPrefix("prefix");
+        new CommandPrefix("prefixad");
+        new CommandReact();
+        new CommandUnpin();
+        new CommandList(true);
+        new CommandList(false);
     }
 
     @EventSubscriber

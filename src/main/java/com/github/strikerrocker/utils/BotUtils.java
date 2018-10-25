@@ -1,4 +1,4 @@
-package com.github.strikerrocker;
+package com.github.strikerrocker.utils;
 
 import com.vdurmont.emoji.EmojiManager;
 import sx.blah.discord.api.ClientBuilder;
@@ -9,8 +9,6 @@ import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
-
-import java.util.Map;
 
 public class BotUtils {
     public static String USER_PREFIX = "!";
@@ -75,14 +73,5 @@ public class BotUtils {
                 e.printStackTrace();
             }
         });
-    }
-
-    public static String desc(Map<String, Command> commandMap, Map<String, String> commandDescMap) {
-        String desc = "```";
-        for (String key : commandMap.keySet()) {
-            desc = desc.concat(key + "  :  " + commandDescMap.get(key) + "\n");
-        }
-        desc += "```";
-        return desc;
     }
 }

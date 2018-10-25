@@ -1,7 +1,7 @@
 package com.github.strikerrocker.gson;
 
-import com.github.strikerrocker.BotUtils;
 import com.github.strikerrocker.MainRunner;
+import com.github.strikerrocker.utils.BotUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;

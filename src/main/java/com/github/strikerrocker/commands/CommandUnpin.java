@@ -1,15 +1,13 @@
 package com.github.strikerrocker.commands;
 
-import com.github.strikerrocker.BotUtils;
-import com.github.strikerrocker.Command;
-import com.github.strikerrocker.CommandHandler;
+import com.github.strikerrocker.utils.BotUtils;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 import java.util.List;
 
 public class CommandUnpin extends Command {
-    public CommandUnpin(CommandHandler handler) {
-        super("unpin", true, handler);
+    public CommandUnpin() {
+        super("unpin", true);
     }
 
     @Override

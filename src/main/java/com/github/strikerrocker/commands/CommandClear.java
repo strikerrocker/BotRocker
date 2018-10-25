@@ -1,8 +1,6 @@
 package com.github.strikerrocker.commands;
 
-import com.github.strikerrocker.BotUtils;
-import com.github.strikerrocker.Command;
-import com.github.strikerrocker.CommandHandler;
+import com.github.strikerrocker.utils.BotUtils;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
@@ -12,8 +10,8 @@ import java.util.List;
 
 public class CommandClear extends Command {
 
-    public CommandClear(CommandHandler handler) {
-        super("clear", true, handler);
+    public CommandClear() {
+        super("clear", true);
     }
 
     @Override

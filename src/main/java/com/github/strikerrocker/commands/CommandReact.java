@@ -1,15 +1,13 @@
 package com.github.strikerrocker.commands;
 
-import com.github.strikerrocker.BotUtils;
-import com.github.strikerrocker.Command;
-import com.github.strikerrocker.CommandHandler;
+import com.github.strikerrocker.utils.BotUtils;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 import java.util.List;
 
 public class CommandReact extends Command {
-    public CommandReact(CommandHandler handler) {
-        super("react", false, handler);
+    public CommandReact() {
+        super("react", false);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class CommandClear extends Command {
                 int size = channel.getFullMessageHistory().size();
                 channel.getFullMessageHistory().bulkDelete();
                 if (!channel.getFullMessageHistory().isEmpty()) this.runCommand(event, args);
-                BotUtils.sendMessage(event.getChannel(), size + " messages have been deleted");
+                BotUtils.sendMessage(event.getChannel(), size + " messages have been deleted", 5, 10);
             } catch (DiscordException e) {
                 System.err.println("Message could not be sent with error: ");
                 e.printStackTrace();

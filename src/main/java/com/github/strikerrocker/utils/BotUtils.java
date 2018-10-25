@@ -10,6 +10,11 @@ import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
 public class BotUtils {
     public static String USER_PREFIX = "!";
     public static String ADMIN_PREFIX = "&";
@@ -26,6 +31,28 @@ public class BotUtils {
         RequestBuffer.request(() -> {
             try {
                 channel.sendMessage(message);
+            } catch (DiscordException e) {
+                System.err.println("Message could not be sent with error: ");
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public static void sendMessage(IChannel channel, String message, long delay, long period) {
+        RequestBuffer.request(() -> {
+            try {
+                IMessage msg = channel.sendMessage(message);
+                Timer timer = new Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                                              @Override
+                                              public void run() {
+                                                  ArrayList<IMessage> messages = new ArrayList<>();
+                                                  messages.add(msg);
+                                                  channel.bulkDelete(messages);
+                                                  timer.cancel();
+                                              }
+                                          }
+                        , TimeUnit.SECONDS.toMillis(delay), TimeUnit.SECONDS.toMillis(period));
             } catch (DiscordException e) {
                 System.err.println("Message could not be sent with error: ");
                 e.printStackTrace();

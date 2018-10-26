@@ -12,7 +12,7 @@ public class CommandHelpMe extends Command {
 
     @Override
     public void runCommand(MessageReceivedEvent event, List<String> args) {
-        String output = "Help is on the way!";
+        String output = "Help is on the way! :rotating_light: ";
         output += "\n http://lmgtfy.com/?q=";
         for (String string : args) {
             output += string;

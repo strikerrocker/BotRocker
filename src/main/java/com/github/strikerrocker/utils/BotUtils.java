@@ -4,7 +4,10 @@ import com.vdurmont.emoji.Emoji;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
-import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IEmoji;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
@@ -21,7 +24,7 @@ public class BotUtils {
         return new ClientBuilder()
                 .withToken(token)
                 .withRecommendedShardCount()
-                .setPresence(StatusType.ONLINE, ActivityType.WATCHING, "Striker")
+                .setPresence(StatusType.ONLINE)
                 .build();
     }
 
@@ -36,7 +39,7 @@ public class BotUtils {
         });
     }
 
-    public static void sendMessage(IChannel channel, String message, long delay, long period) {
+    public static void sendMessage(IChannel channel, long delay, long period, String message) {
         RequestBuffer.request(() -> {
             try {
                 IMessage msg = channel.sendMessage(message);

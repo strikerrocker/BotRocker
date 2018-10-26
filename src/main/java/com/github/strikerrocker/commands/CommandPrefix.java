@@ -24,7 +24,7 @@ public class CommandPrefix extends Command {
                 BotUtils.ADMIN_PREFIX = args.get(0);
                 BotUtils.sendMessage(event.getChannel(), "The Admin Prefix has been set to " + BotUtils.ADMIN_PREFIX);
             }
-            GsonUtils.save();
+            GsonUtils.saveCommandData();
         } else {
             String msg = "";
             msg = this.cmd.equals("prefix") ? "The User Prefix is " + BotUtils.USER_PREFIX : "The Admin Prefix is " + BotUtils.ADMIN_PREFIX;

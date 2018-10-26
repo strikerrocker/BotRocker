@@ -1,16 +1,20 @@
 package com.github.strikerrocker.gson;
 
 import com.github.strikerrocker.MainRunner;
+import com.github.strikerrocker.commands.CommandCustom;
 import com.github.strikerrocker.utils.BotUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Map;
 
 public class GsonUtils {
 
@@ -63,7 +67,7 @@ public class GsonUtils {
         }
     }
 
-    public static void read(File file) {
+    public static void readCommandData(File file) {
         try {
             GsonUtils.handleJsonObject(new JsonReader(new StringReader(FileUtils.readFileToString(file, Charset.defaultCharset()))));
         } catch (IOException e) {
@@ -71,14 +75,57 @@ public class GsonUtils {
         }
     }
 
-    public static void save() {
+    public static void readCustomCommandData(File file) {
         try {
-            Files.deleteIfExists(MainRunner.FILE_PATH);
-            PrintWriter printWriter = new PrintWriter(new FileWriter(MainRunner.FILE_PATH.toFile()));
-            printWriter.print(gson.toJson(new Guilds().setADMIN_PREFIX(BotUtils.ADMIN_PREFIX).setUSER_PREFIX(BotUtils.USER_PREFIX)));
+            Type type = new TypeToken<Map<Long, Map<String, Map<String, String>>>>() {
+            }.getType();
+            Map<Long, Map<String, Map<String, String>>> map = gson.fromJson(new StringReader(FileUtils.readFileToString(file, Charset.defaultCharset())), type);
+            MainRunner.INSTANCE.customCommands = map;
+            for (Map.Entry<Long, Map<String, Map<String, String>>> entry : map.entrySet()) {
+                Long serverID = entry.getKey();
+                Map<String, Map<String, String>> nameReplyDesc = entry.getValue();
+                for (Map.Entry<String, Map<String, String>> entry1 : nameReplyDesc.entrySet()) {
+                    String name = entry1.getKey();
+                    Map<String, String> replyDescMap = entry1.getValue();
+                    String reply = replyDescMap.keySet().toString().substring(1).replaceAll("]", "");
+                    String desc = replyDescMap.values().toString().substring(1).replaceAll("]", "");
+                    MainRunner.INSTANCE.commands.put(name, new CommandCustom(name, reply, desc, serverID));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveCommandData() {
+        try {
+            Files.deleteIfExists(MainRunner.DATA_PATH);
+            PrintWriter printWriter = new PrintWriter(new FileWriter(MainRunner.DATA_PATH.toFile()));
+            printWriter.print(gson.toJson(new Guilds().setAdminPrefix(BotUtils.ADMIN_PREFIX).setUserPrefix(BotUtils.USER_PREFIX)));
             printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void saveCustomCommandData() {
+        try {
+            Files.deleteIfExists(MainRunner.CUSTOM_DATA_PATH);
+            PrintWriter printWriter = new PrintWriter(new FileWriter(MainRunner.CUSTOM_DATA_PATH.toFile()));
+            printWriter.print(gson.toJson(MainRunner.INSTANCE.customCommands));
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveAll() {
+        saveCommandData();
+        saveCommandData();
+    }
+
+    public static void readAll() {
+        readCommandData(MainRunner.DATA_PATH.toFile());
+        readCustomCommandData(MainRunner.CUSTOM_DATA_PATH.toFile());
     }
 }

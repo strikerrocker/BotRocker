@@ -15,13 +15,12 @@ public class Command {
         else MainRunner.INSTANCE.commands.put(cmd, this);
         MainRunner.INSTANCE.commandDescs.put(cmd, getDesc());
         this.cmd = cmd;
-
     }
 
     public void runCommand(MessageReceivedEvent event, List<String> args) {
     }
 
     public String getDesc() {
-        return "";
+        return "No Description.";
     }
 }

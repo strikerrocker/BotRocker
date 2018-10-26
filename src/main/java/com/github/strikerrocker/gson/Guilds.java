@@ -1,5 +1,6 @@
 package com.github.strikerrocker.gson;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -22,20 +23,20 @@ public class Guilds {
         return guilds;
     }
 
-    public String getADMIN_PREFIX() {
+    public String getAdminPrefix() {
         return ADMIN_PREFIX;
     }
 
-    public Guilds setADMIN_PREFIX(String ADMIN_PREFIX) {
+    public Guilds setAdminPrefix(String ADMIN_PREFIX) {
         this.ADMIN_PREFIX = ADMIN_PREFIX;
         return this;
     }
 
-    public String getUSER_PREFIX() {
+    public String getUserPrefix() {
         return USER_PREFIX;
     }
 
-    public Guilds setUSER_PREFIX(String USER_PREFIX) {
+    public Guilds setUserPrefix(String USER_PREFIX) {
         this.USER_PREFIX = USER_PREFIX;
         return this;
     }

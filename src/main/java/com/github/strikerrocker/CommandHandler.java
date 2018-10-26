@@ -22,6 +22,7 @@ public class CommandHandler {
         new CommandUnpin();
         new CommandList(true);
         new CommandList(false);
+        new CommandCustomCreator();
     }
 
     @EventSubscriber

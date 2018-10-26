@@ -14,19 +14,17 @@ public class CommandReact extends Command {
 
     @Override
     public void runCommand(MessageReceivedEvent event, List<String> args) {
-        for (String alias : args) {
-            event.getGuild().getEmojis().forEach(emoji -> {
-                IMessage toReact = BotUtils.getMsgBeforeGiven(event.getChannel());
-                if (alias.equals(emoji.getName())) {
-                    BotUtils.react(toReact, emoji);
-                } else if (EmojiManager.isEmoji(alias))
-                    BotUtils.react(toReact, EmojiManager.getForAlias(alias));
-            });
-        }
+        args.forEach((alias) -> event.getGuild().getEmojis().forEach(emoji -> {
+            IMessage toReact = BotUtils.getMsgBeforeGiven(event.getChannel());
+            if (alias.equals(emoji.getName())) {
+                BotUtils.react(toReact, emoji);
+            } else if (EmojiManager.isEmoji(alias))
+                BotUtils.react(toReact, EmojiManager.getForAlias(alias));
+        }));
     }
 
     @Override
     public String getDesc() {
-        return "Reacts the last message with the given args as emoji key(Support custom server emotes but not global).";
+        return "Reacts the last message with the given args as emoji key(Supports server emotes).";
     }
 }

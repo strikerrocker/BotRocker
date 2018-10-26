@@ -30,6 +30,6 @@ public class CommandCustomCreator extends Command {
 
     @Override
     public String getDesc() {
-        return "Usage : !custom create <name> <reply> <desc> \n Usage : !custom delete <name>";
+        return "Usage : !custom create <name> <reply> <desc> \n  \t \tUsage : !custom delete <name>";
     }
 }

@@ -27,4 +27,9 @@ public class CommandCustomCreator extends Command {
                 ((CommandCustom) MainRunner.INSTANCE.commands.get(name)).delete(event.getChannel());
         }
     }
+
+    @Override
+    public String getDesc() {
+        return "Usage : !custom create <name> <reply> <desc> \n Usage : !custom delete <name>";
+    }
 }

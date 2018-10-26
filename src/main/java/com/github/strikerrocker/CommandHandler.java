@@ -23,6 +23,7 @@ public class CommandHandler {
         new CommandList(true);
         new CommandList(false);
         new CommandCustomCreator();
+        new CommandHelpMe();
     }
 
     @EventSubscriber

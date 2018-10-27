@@ -16,6 +16,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Map;
 
+import static com.github.strikerrocker.MainRunner.CUSTOM_DATA_PATH;
+
 public class GsonUtils {
 
     public static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().disableHtmlEscaping().create();
@@ -23,7 +25,6 @@ public class GsonUtils {
     public static void handleJsonObject(JsonReader reader) throws IOException {
         reader.beginObject();
         String fieldname = null;
-
         while (reader.hasNext()) {
             JsonToken token = reader.peek();
             if (token.equals(JsonToken.BEGIN_ARRAY)) {
@@ -38,7 +39,7 @@ public class GsonUtils {
                 if ("ADMIN_PREFIX".equals(fieldname)) {
                     token = reader.peek();
                     BotUtils.ADMIN_PREFIX = reader.nextString();
-                    System.out.println("ADMIN Prefix has been set to " + BotUtils.ADMIN_PREFIX);
+                    System.out.println("Admin Prefix has been set to " + BotUtils.ADMIN_PREFIX);
                 }
                 if ("USER_PREFIX".equals(fieldname)) {
                     token = reader.peek();
@@ -62,16 +63,7 @@ public class GsonUtils {
             } else if (token.equals(JsonToken.END_OBJECT)) {
                 reader.endObject();
             } else {
-                System.out.print(reader.nextInt() + " ");
             }
-        }
-    }
-
-    public static void readCommandData(File file) {
-        try {
-            GsonUtils.handleJsonObject(new JsonReader(new StringReader(FileUtils.readFileToString(file, Charset.defaultCharset()))));
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -97,21 +89,10 @@ public class GsonUtils {
         }
     }
 
-    public static void saveCommandData() {
-        try {
-            Files.deleteIfExists(MainRunner.DATA_PATH);
-            PrintWriter printWriter = new PrintWriter(new FileWriter(MainRunner.DATA_PATH.toFile()));
-            printWriter.print(gson.toJson(new Guilds().setAdminPrefix(BotUtils.ADMIN_PREFIX).setUserPrefix(BotUtils.USER_PREFIX)));
-            printWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void saveCustomCommandData() {
         try {
-            Files.deleteIfExists(MainRunner.CUSTOM_DATA_PATH);
-            PrintWriter printWriter = new PrintWriter(new FileWriter(MainRunner.CUSTOM_DATA_PATH.toFile()));
+            Files.deleteIfExists(CUSTOM_DATA_PATH);
+            PrintWriter printWriter = new PrintWriter(new FileWriter(CUSTOM_DATA_PATH.toFile()));
             printWriter.print(gson.toJson(MainRunner.INSTANCE.customCommands));
             printWriter.close();
         } catch (IOException e) {
@@ -119,13 +100,29 @@ public class GsonUtils {
         }
     }
 
-    public static void saveAll() {
-        saveCommandData();
-        saveCommandData();
+    public static void save() {
+        saveCustomCommandData();
+        MainRunner.INSTANCE.storageCommands.forEach((name, command) -> command.save());
     }
 
-    public static void readAll() {
-        readCommandData(MainRunner.DATA_PATH.toFile());
-        readCustomCommandData(MainRunner.CUSTOM_DATA_PATH.toFile());
+    public static void onStart() {
+        MainRunner.INSTANCE.storageCommands.forEach((name, command) -> {
+            try {
+                command.onStart();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        try {
+            if (CUSTOM_DATA_PATH.toFile().createNewFile())
+                GsonUtils.saveCustomCommandData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void read() {
+        readCustomCommandData(CUSTOM_DATA_PATH.toFile());
+        MainRunner.INSTANCE.storageCommands.forEach((name, command) -> command.read());
     }
 }

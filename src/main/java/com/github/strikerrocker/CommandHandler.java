@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CommandHandler {
 
-    public CommandHandler() {
+    CommandHandler() {
         new CommandClear();
         new CommandPing();
         new CommandPrefix("prefix");
@@ -24,25 +24,28 @@ public class CommandHandler {
         new CommandList(false);
         new CommandCustomCreator();
         new CommandHelpMe();
+        //new CommandKaboom();
     }
 
     @EventSubscriber
     @SuppressWarnings("unused")
     public void onMessageReceived(MessageReceivedEvent event) {
-        String[] argArray = event.getMessage().getContent().split(" ");
-        if (argArray.length != 0) {
-            List<String> argsList = new ArrayList<>(Arrays.asList(argArray));
+        List<String> cmdParams = new ArrayList<>(Arrays.asList(event.getMessage().getContent().split(" ")));
+        if (cmdParams.size() != 0) {
+            List<String> argsList = new ArrayList<>(cmdParams);
             argsList.remove(0);
-            if (argArray[0].startsWith(BotUtils.USER_PREFIX)) {
-                String prefix = argArray[0].substring(BotUtils.USER_PREFIX.length());
-                if (MainRunner.INSTANCE.commands.get(prefix) != null)
-                    MainRunner.INSTANCE.commands.get(prefix).runCommand(event, argsList);
-                else BotUtils.sendMessage(event.getChannel(), "The command `" + prefix + "` doesnt exists");
-            } else if (argArray[0].startsWith(BotUtils.ADMIN_PREFIX) && PermissionUtils.hasPermissions(event.getGuild(), event.getAuthor(), Permissions.ADMINISTRATOR)) {
-                String prefix = argArray[0].substring(BotUtils.ADMIN_PREFIX.length());
+            String command = cmdParams.get(0).toLowerCase();
+            System.out.println(command);
+            if (command.startsWith(BotUtils.ADMIN_PREFIX) && PermissionUtils.hasPermissions(event.getGuild(), event.getAuthor(), Permissions.ADMINISTRATOR)) {
+                String prefix = command.substring(BotUtils.ADMIN_PREFIX.length());
                 if (MainRunner.INSTANCE.adminCommands.get(prefix) != null)
                     MainRunner.INSTANCE.adminCommands.get(prefix).runCommand(event, argsList);
-                else BotUtils.sendMessage(event.getChannel(), "The Admin command `" + prefix + "` doesnt exists");
+                else BotUtils.sendMessage(event.getChannel(), "The Admin command `" + prefix + "` doesn't exists");
+            } else if (command.startsWith(BotUtils.USER_PREFIX)) {
+                String prefix = command.substring(BotUtils.USER_PREFIX.length());
+                if (MainRunner.INSTANCE.commands.get(prefix) != null)
+                    MainRunner.INSTANCE.commands.get(prefix).runCommand(event, argsList);
+                else BotUtils.sendMessage(event.getChannel(), "The command `" + prefix + "` doesn't exists");
             }
         }
     }

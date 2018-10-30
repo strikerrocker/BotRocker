@@ -21,6 +21,8 @@ import static com.github.strikerrocker.gson.GsonUtils.gson;
 
 public class CommandPrefix extends CommandPersistent {
     public static final Path DATA_PATH = Paths.get("command_data/prefix.json");
+    public static final Type type = new TypeToken<Map<String, String>>() {
+    }.getType();
     private boolean adminPrefix;
 
     public CommandPrefix(String cmd) {
@@ -56,8 +58,6 @@ public class CommandPrefix extends CommandPersistent {
     public void read() {
         try {
             if (adminPrefix) {
-                Type type = new TypeToken<Map<String, String>>() {
-                }.getType();
                 Map<String, String> namePrefixMap = gson.fromJson(FileUtils.readFileToString(DATA_PATH.toFile(), Charset.defaultCharset()), type);
                 BotUtils.ADMIN_PREFIX = namePrefixMap.get("admin_prefix");
                 System.out.println("Admin Prefix has been set to " + BotUtils.ADMIN_PREFIX);
@@ -77,7 +77,8 @@ public class CommandPrefix extends CommandPersistent {
             Map<String, String> namePrefixMap = new HashMap<>();
             namePrefixMap.put("user_prefix", BotUtils.USER_PREFIX);
             namePrefixMap.put("admin_prefix", BotUtils.ADMIN_PREFIX);
-            printWriter.print(gson.toJson(namePrefixMap));
+            System.out.println(namePrefixMap.toString());
+            printWriter.print(gson.toJson(namePrefixMap, type));
             printWriter.close();
         } catch (IOException e) {
             e.printStackTrace();

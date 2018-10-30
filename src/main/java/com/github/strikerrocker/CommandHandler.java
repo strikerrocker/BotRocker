@@ -35,7 +35,6 @@ public class CommandHandler {
             List<String> argsList = new ArrayList<>(cmdParams);
             argsList.remove(0);
             String command = cmdParams.get(0).toLowerCase();
-            System.out.println(command);
             if (command.startsWith(BotUtils.ADMIN_PREFIX) && PermissionUtils.hasPermissions(event.getGuild(), event.getAuthor(), Permissions.ADMINISTRATOR)) {
                 String prefix = command.substring(BotUtils.ADMIN_PREFIX.length());
                 if (MainRunner.INSTANCE.adminCommands.get(prefix) != null)

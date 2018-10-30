@@ -20,9 +20,9 @@ import static com.github.strikerrocker.commands.CommandPrefix.DATA_PATH;
 
 public class MainRunner {
     public static final File DATA_FOLDER = Paths.get("command_data").toFile();
+    public static final Path CUSTOM_CMD_DATA_PATH = Paths.get("command_data/custom_commands.json");
     private static final Timer autoSaveTimer = new Timer();
     public static MainRunner INSTANCE = new MainRunner();
-    public static final Path CUSTOM_DATA_PATH = Paths.get("command_data/custom_commands.json");
 
     static {
         DATA_FOLDER.mkdirs();

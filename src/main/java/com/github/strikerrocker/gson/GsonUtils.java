@@ -16,7 +16,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Map;
 
-import static com.github.strikerrocker.MainRunner.CUSTOM_DATA_PATH;
+import static com.github.strikerrocker.MainRunner.CUSTOM_CMD_DATA_PATH;
 
 public class GsonUtils {
 
@@ -91,8 +91,8 @@ public class GsonUtils {
 
     public static void saveCustomCommandData() {
         try {
-            Files.deleteIfExists(CUSTOM_DATA_PATH);
-            PrintWriter printWriter = new PrintWriter(new FileWriter(CUSTOM_DATA_PATH.toFile()));
+            Files.deleteIfExists(CUSTOM_CMD_DATA_PATH);
+            PrintWriter printWriter = new PrintWriter(new FileWriter(CUSTOM_CMD_DATA_PATH.toFile()));
             printWriter.print(gson.toJson(MainRunner.INSTANCE.customCommands));
             printWriter.close();
         } catch (IOException e) {
@@ -114,7 +114,7 @@ public class GsonUtils {
             }
         });
         try {
-            if (CUSTOM_DATA_PATH.toFile().createNewFile())
+            if (CUSTOM_CMD_DATA_PATH.toFile().createNewFile())
                 GsonUtils.saveCustomCommandData();
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,7 +122,7 @@ public class GsonUtils {
     }
 
     public static void read() {
-        readCustomCommandData(CUSTOM_DATA_PATH.toFile());
+        readCustomCommandData(CUSTOM_CMD_DATA_PATH.toFile());
         MainRunner.INSTANCE.storageCommands.forEach((name, command) -> command.read());
     }
 }

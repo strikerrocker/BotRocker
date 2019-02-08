@@ -2,12 +2,9 @@ package com.github.strikerrocker.gson;
 
 import com.github.strikerrocker.MainRunner;
 import com.github.strikerrocker.commands.CommandCustom;
-import com.github.strikerrocker.utils.BotUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -21,51 +18,6 @@ import static com.github.strikerrocker.MainRunner.CUSTOM_CMD_DATA_PATH;
 public class GsonUtils {
 
     public static Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().disableHtmlEscaping().create();
-
-    public static void handleJsonObject(JsonReader reader) throws IOException {
-        reader.beginObject();
-        String fieldname = null;
-        while (reader.hasNext()) {
-            JsonToken token = reader.peek();
-            if (token.equals(JsonToken.BEGIN_ARRAY)) {
-                handleJsonArray(reader);
-            } else if (token.equals(JsonToken.END_OBJECT)) {
-                reader.endObject();
-                return;
-            } else {
-                if (token.equals(JsonToken.NAME)) {
-                    fieldname = reader.nextName();
-                }
-                if ("ADMIN_PREFIX".equals(fieldname)) {
-                    token = reader.peek();
-                    BotUtils.ADMIN_PREFIX = reader.nextString();
-                    System.out.println("Admin Prefix has been set to " + BotUtils.ADMIN_PREFIX);
-                }
-                if ("USER_PREFIX".equals(fieldname)) {
-                    token = reader.peek();
-                    BotUtils.USER_PREFIX = reader.nextString();
-                    System.out.println("User Prefix has been set to " + BotUtils.USER_PREFIX);
-                }
-            }
-        }
-    }
-
-    public static void handleJsonArray(JsonReader reader) throws IOException {
-        reader.beginArray();
-        String fieldname = null;
-        while (true) {
-            JsonToken token = reader.peek();
-            if (token.equals(JsonToken.END_ARRAY)) {
-                reader.endArray();
-                break;
-            } else if (token.equals(JsonToken.BEGIN_OBJECT)) {
-                handleJsonObject(reader);
-            } else if (token.equals(JsonToken.END_OBJECT)) {
-                reader.endObject();
-            } else {
-            }
-        }
-    }
 
     public static void readCustomCommandData(File file) {
         try {
@@ -106,13 +58,7 @@ public class GsonUtils {
     }
 
     public static void onStart() {
-        MainRunner.INSTANCE.storageCommands.forEach((name, command) -> {
-            try {
-                command.onStart();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        MainRunner.INSTANCE.storageCommands.forEach((name, command) -> command.onStart());
         try {
             if (CUSTOM_CMD_DATA_PATH.toFile().createNewFile())
                 GsonUtils.saveCustomCommandData();

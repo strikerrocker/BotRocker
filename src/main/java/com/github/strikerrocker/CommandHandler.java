@@ -14,10 +14,10 @@ import java.util.List;
 public class CommandHandler {
 
     CommandHandler() {
-        new CommandClear();
-        new CommandPing();
         new CommandPrefix("prefix");
         new CommandPrefix("prefixad");
+        new CommandClear();
+        new CommandPing();
         new CommandReact();
         new CommandUnpin();
         new CommandList(true);
@@ -25,6 +25,7 @@ public class CommandHandler {
         new CommandCustomCreator();
         new CommandHelpMe();
         //new CommandKaboom();
+        new CommandMinesweeper();
     }
 
     @EventSubscriber

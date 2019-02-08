@@ -21,7 +21,7 @@ import static com.github.strikerrocker.gson.GsonUtils.gson;
 
 public class CommandPrefix extends CommandPersistent {
     public static final Path DATA_PATH = Paths.get("command_data/prefix.json");
-    public static final Type type = new TypeToken<Map<String, String>>() {
+    private static final Type type = new TypeToken<Map<String, String>>() {
     }.getType();
     private boolean adminPrefix;
 
@@ -59,10 +59,11 @@ public class CommandPrefix extends CommandPersistent {
         try {
             if (adminPrefix) {
                 Map<String, String> namePrefixMap = gson.fromJson(FileUtils.readFileToString(DATA_PATH.toFile(), Charset.defaultCharset()), type);
-                BotUtils.ADMIN_PREFIX = namePrefixMap.get("admin_prefix");
-                System.out.println("Admin Prefix has been set to " + BotUtils.ADMIN_PREFIX);
-                BotUtils.USER_PREFIX = namePrefixMap.get("user_prefix");
+                if (namePrefixMap == null) namePrefixMap = new HashMap<>();
+                BotUtils.USER_PREFIX = namePrefixMap.getOrDefault("user_prefix", "!");
                 System.out.println("User Prefix has been set to " + BotUtils.USER_PREFIX);
+                BotUtils.ADMIN_PREFIX = namePrefixMap.getOrDefault("admin_prefix", "&");
+                System.out.println("Admin Prefix has been set to " + BotUtils.ADMIN_PREFIX);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -75,8 +76,8 @@ public class CommandPrefix extends CommandPersistent {
             Files.deleteIfExists(DATA_PATH);
             PrintWriter printWriter = new PrintWriter(new FileWriter(DATA_PATH.toFile()));
             Map<String, String> namePrefixMap = new HashMap<>();
-            namePrefixMap.put("user_prefix", BotUtils.USER_PREFIX);
-            namePrefixMap.put("admin_prefix", BotUtils.ADMIN_PREFIX);
+            namePrefixMap.put("user_prefix", "!");
+            namePrefixMap.put("admin_prefix", "&");
             System.out.println(namePrefixMap.toString());
             printWriter.print(gson.toJson(namePrefixMap, type));
             printWriter.close();
@@ -86,8 +87,12 @@ public class CommandPrefix extends CommandPersistent {
     }
 
     @Override
-    public void onStart() throws IOException {
-        if (DATA_PATH.toFile().createNewFile())
-            save();
+    public void onStart() {
+        try {
+            if (DATA_PATH.toFile().createNewFile())
+                this.save();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

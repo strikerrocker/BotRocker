@@ -1,11 +1,8 @@
 package com.github.strikerrocker.utils;
 
-import com.vdurmont.emoji.Emoji;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IEmoji;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
@@ -84,26 +81,6 @@ public class BotUtils {
                     }
                 } else
                     sendMessage(channel, "No pinned msg exists");
-            } catch (DiscordException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public static void react(IMessage message, Emoji alias) {
-        RequestBuffer.request(() -> {
-            try {
-                message.addReaction(alias);
-            } catch (DiscordException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public static void react(IMessage message, IEmoji emoji) {
-        RequestBuffer.request(() -> {
-            try {
-                message.addReaction(ReactionEmoji.of(emoji));
             } catch (DiscordException e) {
                 e.printStackTrace();
             }

@@ -41,12 +41,8 @@ public class MainRunner {
     public Map<String, CommandPersistent> storageCommands = new HashMap<>();
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
-            return;
-        }
         IDiscordClient cli;
-        cli = BotUtils.getBuiltDiscordClient(args[0]);
+        cli = BotUtils.getBuiltDiscordClient(System.getenv("TOKEN"));
         cli.getDispatcher().registerListener(new CommandHandler());
         cli.login();
         GsonUtils.onStart();
